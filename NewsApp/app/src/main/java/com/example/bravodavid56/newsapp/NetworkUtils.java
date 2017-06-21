@@ -26,7 +26,7 @@ public final class NetworkUtils {
 
     static final String source = "the-next-web";
     static final String sort = "latest";
-    static final String apiKey = "0bb90ed6b7414eb699aa6f0177276939";
+    static final String apiKey = ""; // YOUR API KEY GOES HERE
 
 
     public static URL buildUrl() {
