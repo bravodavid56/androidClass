@@ -4,11 +4,15 @@ import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -26,7 +30,7 @@ public final class NetworkUtils {
 
     static final String source = "the-next-web";
     static final String sort = "latest";
-    static final String apiKey = ""; // YOUR API KEY GOES HERE
+    static final String apiKey = "0bb90ed6b7414eb699aa6f0177276939"; // YOUR API KEY GOES HERE
 
 
     public static URL buildUrl() {
@@ -65,5 +69,36 @@ public final class NetworkUtils {
         }
     }
 
+    public static ArrayList<NewsItem> parseJSON(String s) {
+        try {
+            JSONObject js = new JSONObject(s);
+            JSONArray allArticles = js.getJSONArray("articles");
+
+            ArrayList<NewsItem> newsItems = new ArrayList<NewsItem>();
+
+//            private String authorName;
+//            private String title;
+//            private String description;
+//            private String url;
+
+            for (int i = 0; i < allArticles.length(); i++) {
+                JSONObject oneItem = allArticles.getJSONObject(i);
+
+                String authorName = oneItem.getString("author");
+                String title = oneItem.getString("title");
+                String description = oneItem.getString("description");
+                String url = oneItem.getString("url");
+                String time = oneItem.getString("publishedAt");
+
+                newsItems.add(new NewsItem
+                        (authorName, title, description, url, time));
+            }
+            return newsItems;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<NewsItem>();
+    }
 
 }
