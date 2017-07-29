@@ -69,9 +69,16 @@ public final class NetworkUtils {
      * @return The URL to use to query the weather server.
      */
     public static URL buildUrl(String locationQuery) {
-        Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
-                .appendQueryParameter(QUERY_PARAM, locationQuery)
+//        Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
+//                .appendQueryParameter(QUERY_PARAM, locationQuery)
+//                .build();
+//
+        Uri builtUri = Uri.parse("https://api.yelp.com/v3/businesses/search")
+                .buildUpon()
+                .appendQueryParameter("location", "San Francisco")
                 .build();
+
+
 
         URL url = null;
         try {
@@ -103,7 +110,10 @@ public final class NetworkUtils {
      * @throws IOException Related to network and stream reading
      */
     public static String getResponseFromHttpUrl(URL url) throws IOException {
+
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        urlConnection.setRequestProperty("Authorization","Bearer 1jRfR08nR8qBa5FrU0_BWQXVSilOu3QRS424lW-FiHKnGU8c83cOlT94yzP8ykJ7fp585-glHX2Ek-6TUhsHqfa1Dr3VR-jDCVmyBXYlDa20Q66rTxSvq-YwXpZmWXYx");
+
         try {
             InputStream in = urlConnection.getInputStream();
 

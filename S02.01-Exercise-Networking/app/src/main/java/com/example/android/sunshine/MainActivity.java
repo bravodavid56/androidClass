@@ -18,6 +18,7 @@ package com.example.android.sunshine;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -61,9 +62,9 @@ public class MainActivity extends AppCompatActivity {
             URL weatherUrl = NetworkUtils.buildUrl(searchUrl);
             try {
                 String jsonResponse = NetworkUtils.getResponseFromHttpUrl(weatherUrl);
-
-                String[] simpleJson = OpenWeatherJsonUtils.getSimpleWeatherStringsFromJson(MainActivity.this, jsonResponse);
-                return simpleJson;
+                Log.e("RESPONSE", jsonResponse);
+//                String[] simpleJson = OpenWeatherJsonUtils.getSimpleWeatherStringsFromJson(MainActivity.this, jsonResponse);
+//                return simpleJson;
             }
             catch (Exception e) {
                 e.printStackTrace();

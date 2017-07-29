@@ -33,13 +33,13 @@ public final class NetworkUtils {
     static final String apiKey = "0bb90ed6b7414eb699aa6f0177276939"; // YOUR API KEY GOES HERE
 
 
+    // build the URL using the defined web address and query parameters above
     public static URL buildUrl() {
         Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                 .appendQueryParameter(SOURCE_PARAM, source)
                 .appendQueryParameter(SORT_BY, sort)
                 .appendQueryParameter(API_PARAM, apiKey)
                 .build();
-
         URL url = null;
         try {
             url = new URL(builtUri.toString());
@@ -50,7 +50,7 @@ public final class NetworkUtils {
         return url;
     }
 
-
+    // read in the response as a String from the url created above
     public static String getResponseFromHttpUrl(URL url) throws IOException {
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         try {
@@ -69,6 +69,7 @@ public final class NetworkUtils {
         }
     }
 
+    // parse the response into an ArrayList of NewsItems
     public static ArrayList<NewsItem> parseJSON(String s) {
         try {
             JSONObject js = new JSONObject(s);
@@ -76,29 +77,29 @@ public final class NetworkUtils {
 
             ArrayList<NewsItem> newsItems = new ArrayList<NewsItem>();
 
-//            private String authorName;
-//            private String title;
-//            private String description;
-//            private String url;
-
+            Log.e("JSON:", allArticles.toString());
             for (int i = 0; i < allArticles.length(); i++) {
                 JSONObject oneItem = allArticles.getJSONObject(i);
 
                 String authorName = oneItem.getString("author");
                 String title = oneItem.getString("title");
                 String description = oneItem.getString("description");
+
+                String image_url = oneItem.getString("urlToImage");
+
                 String url = oneItem.getString("url");
                 String time = oneItem.getString("publishedAt");
 
-                newsItems.add(new NewsItem
-                        (authorName, title, description, url, time));
-            }
-            return newsItems;
 
-        } catch (Exception e) {
+               newsItems.add(new NewsItem
+                       (authorName, title, description, image_url, url, time));
+            }
+                return newsItems;
+
+        } catch(Exception e) {
             e.printStackTrace();
         }
-        return new ArrayList<NewsItem>();
-    }
 
+        return new ArrayList<>();
+    }
 }
